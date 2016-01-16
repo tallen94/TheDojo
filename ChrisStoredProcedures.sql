@@ -140,7 +140,7 @@ ELSE
 
 GO 
 
-CREATE PROC usp_AddContact 
+AlTER PROC usp_AddContact 
 @Phone Numeric (11,0),
 @Street VARCHAR(50), 
 @City VARCHAR(50), 
@@ -153,3 +153,16 @@ BEGIN TRAN T1
 
 INSERT INTO CONTACT (Phone, Street, City, "State", ZipCode, Email)
 VALUES (@Phone, @Street, @City, @State, @ZipCode, @Email)
+
+IF (@@ERROR <> 0)
+	ROLLBACK TRAN T1 
+ELSE 
+	COMMIT TRAN T1
+
+GO 
+
+EXEC usp_AddContact 2062404577, '3567 35th NE', 'Seattle', 'Wa', '98105', 'hoopla@hotmail.com'
+
+SELECT * FROM CONTACT
+ 
+
